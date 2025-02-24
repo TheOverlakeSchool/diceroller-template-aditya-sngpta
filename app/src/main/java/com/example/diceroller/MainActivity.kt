@@ -18,17 +18,14 @@ package com.example.diceroller
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,32 +45,55 @@ import com.example.diceroller.ui.theme.DiceRollerTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             DiceRollerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Jerone",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    DiceRollerApp()
                 }
             }
         }
     }
 }
 
+@Preview
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+fun DiceRollerApp() {
+    DndAttributes(modifier = Modifier
+        .fillMaxSize()
+        .wrapContentSize(Alignment.Center)
     )
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    DiceRollerTheme {
-        Greeting("Jerone")
+fun DndAttributes(modifier: Modifier = Modifier) {
+    var attributes by remember { mutableStateOf(listOf(0, 0, 0, 0, 0, 0)) }
+    var rollCount by remember { mutableStateOf(0) }
+
+    fun rollAttribute(): Int {
+        val dice = List(4) { (1..6).random() }
+        return dice.sorted().drop(1).sum()
+    }
+
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        attributes.forEachIndexed { index, value ->
+            Text(text = "Attribute ${index + 1}: $value", fontSize = 24.sp)
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(onClick = {
+            if (rollCount < 6) {
+                val newValues = attributes.toMutableList()
+                newValues[rollCount] = rollAttribute()
+                attributes = newValues
+                rollCount++
+            } else {
+                attributes = listOf(0, 0, 0, 0, 0, 0)
+                rollCount = 0
+            }
+        }) {
+            Text(text = stringResource(R.string.roll), fontSize = 24.sp)
+        }
     }
 }

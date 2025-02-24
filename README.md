@@ -1,1 +1,21 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-YjVCZTM)
+Create an interactive dice roller app - Solution Code
+=======================================
+
+Solution code for the Android Basics with Compose: Create an interactive dice roller app.
+
+Introduction
+------------
+In this codelab, you will build out the Dice Roller app from start to finish using Compose.
+
+Pre-requisites
+--------------
+
+You need to know:
+- How to create a new project in Android Studio
+- How to build a basic layout with Compose.
+- How to write control flow statements (if / else, when statements).
+
+Getting Started
+---------------
+
+1. Download and run the app.
